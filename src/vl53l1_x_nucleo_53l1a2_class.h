@@ -35,8 +35,8 @@
  ******************************************************************************
 */
 
-#ifndef __VL53L1_X_NUCLEO_53L0A2_CLASS_H
-#define __VL53L1_X_NUCLEO_53L0A2_CLASS_H
+#ifndef __VL53L1_X_NUCLEO_53L1A2_CLASS_H
+#define __VL53L1_X_NUCLEO_53L1A2_CLASS_H
 
 
 /* Includes ------------------------------------------------------------------*/
@@ -54,8 +54,7 @@ public:
    /** Constructor (STMPE1600DigiOut)
     * @param[in] i2c device I2C to be used for communication
     * @param[in] &pin Gpio Expander STMPE1600DigiOut pin to be used as component GPIO_0 CE
-    * @param[in] pin_gpio1 pin Mbed InterruptIn PinName to be used as component GPIO_1 INT
-    * @param[in] device address, 0x29 by default
+    * @param[in] pin_gpio1 pin Arduino Interrupt PinName to be used as component GPIO_1 INT
     */
    VL53L1_X_NUCLEO_53L1A2(TwoWire *i2c, STMPE1600DigiOut *pin, int pin_gpio1) : VL53L1(i2c, -1, pin_gpio1)
    {
@@ -98,6 +97,6 @@ protected:
 };
 
 
-#endif /* __VL53L1_X_NUCLEO_53L0A2_CLASS_H */
+#endif /* __VL53L1_X_NUCLEO_53L1A2_CLASS_H */
 
 
