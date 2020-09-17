@@ -58,15 +58,20 @@
 #define DEV_I2C Wire
 #define SerialPort Serial
 
+/* Please uncomment the line below if you have the satellites mounted */
+//#define SATELLITES_MOUNTED
+
 #define interruptPin A2
 
 // Components.
 STMPE1600DigiOut *xshutdown_top;
-STMPE1600DigiOut *xshutdown_left;
-STMPE1600DigiOut *xshutdown_right;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_top;
+#if SATELLITES_MOUNTED
+STMPE1600DigiOut *xshutdown_left;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_left;
+STMPE1600DigiOut *xshutdown_right;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_right;
+#endif
 
 volatile int interruptCount=0;
 
@@ -97,6 +102,7 @@ void setup()
    // Switch off VL53L1 top component.
    sensor_vl53l1_top->VL53L1_Off();
 
+#if SATELLITES_MOUNTED
    // Create (if present) VL53L1 left component.
    xshutdown_left = new STMPE1600DigiOut(&DEV_I2C, GPIO_14, (0x43 * 2));
    sensor_vl53l1_left = new VL53L1_X_NUCLEO_53L1A2(&DEV_I2C, xshutdown_left, D8);
@@ -110,6 +116,7 @@ void setup()
 
    // Switch off (if present) VL53L1 right component.
    sensor_vl53l1_right->VL53L1_Off();
+#endif
 
    // Initialize VL53L1 top component.
    status = sensor_vl53l1_top->InitSensor(0x10);

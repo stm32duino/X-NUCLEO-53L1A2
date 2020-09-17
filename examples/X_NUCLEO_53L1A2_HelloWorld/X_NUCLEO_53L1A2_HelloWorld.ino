@@ -53,13 +53,18 @@
 #define DEV_I2C Wire
 #define SerialPort Serial
 
+/* Please uncomment the line below if you want also to use the satellites */
+//#define SATELLITES_MOUNTED
+
 // Components.
 STMPE1600DigiOut *xshutdown_top;
-STMPE1600DigiOut *xshutdown_left;
-STMPE1600DigiOut *xshutdown_right;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_top;
+#if SATELLITES_MOUNTED
+STMPE1600DigiOut *xshutdown_left;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_left;
+STMPE1600DigiOut *xshutdown_right;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_right;
+#endif
 
 /* Setup ---------------------------------------------------------------------*/
 
@@ -82,6 +87,7 @@ void setup()
    // Switch off VL53L1 top component.
    sensor_vl53l1_top->VL53L1_Off();
 
+#if SATELLITES_MOUNTED
    // Create (if present) VL53L1 left component.
    xshutdown_left = new STMPE1600DigiOut(&DEV_I2C, GPIO_14, (0x43 * 2));
    sensor_vl53l1_left = new VL53L1_X_NUCLEO_53L1A2(&DEV_I2C, xshutdown_left, D8);
@@ -95,19 +101,24 @@ void setup()
 
    // Switch off (if present) VL53L1 right component.
    sensor_vl53l1_right->VL53L1_Off();
+#endif
 
    //Initialize all the sensors
    sensor_vl53l1_top->InitSensor(0x10);
+#if SATELLITES_MOUNTED
    sensor_vl53l1_left->InitSensor(0x12);
    sensor_vl53l1_right->InitSensor(0x14);
+#endif
 
    // Start Measurements
    sensor_vl53l1_top->VL53L1_SetPresetMode(VL53L1_PRESETMODE_RANGING);
    sensor_vl53l1_top->VL53L1_StartMeasurement();
+#if SATELLITES_MOUNTED
    sensor_vl53l1_left->VL53L1_SetPresetMode(VL53L1_PRESETMODE_RANGING);
    sensor_vl53l1_left->VL53L1_StartMeasurement();
    sensor_vl53l1_right->VL53L1_SetPresetMode(VL53L1_PRESETMODE_RANGING);
    sensor_vl53l1_right->VL53L1_StartMeasurement();
+#endif
 }
 
 void loop()
@@ -156,6 +167,7 @@ void loop()
 
    digitalWrite(13, LOW);
 
+#if SATELLITES_MOUNTED
    NewDataReady = 0;
    no_of_object_found = 0;
 
@@ -235,4 +247,5 @@ void loop()
    }
 
    digitalWrite(13, LOW);
+#endif
 }
