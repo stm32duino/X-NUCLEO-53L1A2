@@ -66,7 +66,7 @@
 // Components.
 STMPE1600DigiOut *xshutdown_top;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_top;
-#if SATELLITES_MOUNTED
+#ifdef SATELLITES_MOUNTED
 STMPE1600DigiOut *xshutdown_left;
 VL53L1_X_NUCLEO_53L1A2 *sensor_vl53l1_left;
 STMPE1600DigiOut *xshutdown_right;
@@ -102,7 +102,7 @@ void setup()
    // Switch off VL53L1 top component.
    sensor_vl53l1_top->VL53L1_Off();
 
-#if SATELLITES_MOUNTED
+#ifdef SATELLITES_MOUNTED
    // Create (if present) VL53L1 left component.
    xshutdown_left = new STMPE1600DigiOut(&DEV_I2C, GPIO_14, (0x43 * 2));
    sensor_vl53l1_left = new VL53L1_X_NUCLEO_53L1A2(&DEV_I2C, xshutdown_left, D8);
