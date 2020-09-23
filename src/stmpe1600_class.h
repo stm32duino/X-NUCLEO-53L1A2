@@ -97,8 +97,8 @@ class STMPE1600DigiOut {
     /** Constructor
      * @param[in] &i2c device I2C to be used for communication
      * @param[in] outpinname the desired out pin name to be created
-     * @param[in] DevAddr the stmpe1600 I2C device addres (deft STMPE1600_DEF_DEVICE_ADDRESS)
-     * @param[in] lvl the default ot pin level
+     * @param[in] DevAddr the stmpe1600 I2C device address (deft STMPE1600_DEF_DEVICE_ADDRESS)
+     * @param[in] lvl the default output pin level
      */
     STMPE1600DigiOut(TwoWire *i2c, ExpGpioPinName outpinname, uint8_t DevAddr = STMPE1600_DEF_DEVICE_ADDRESS, bool lvl = STMPE1600_DEF_DIGIOUT_LVL): dev_i2c(i2c), expdevaddr(DevAddr), exppinname(outpinname)
     {
