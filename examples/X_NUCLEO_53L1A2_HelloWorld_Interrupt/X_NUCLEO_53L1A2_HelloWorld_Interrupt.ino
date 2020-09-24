@@ -58,6 +58,11 @@
 #define DEV_I2C Wire
 #define SerialPort Serial
 
+#ifndef LED_BUILTIN
+#define LED_BUILTIN 13
+#endif
+#define LedPin LED_BUILTIN
+
 /* Please uncomment the line below if you have the satellites mounted */
 //#define SATELLITES_MOUNTED
 
@@ -84,7 +89,7 @@ void setup()
 {
    VL53L1_Error status;
    // Led.
-   pinMode(13, OUTPUT);
+   pinMode(LedPin, OUTPUT);
    pinMode(interruptPin, INPUT_PULLUP);
    attachInterrupt(interruptPin, measure, FALLING);
 
@@ -143,7 +148,7 @@ void loop()
 
       interruptCount=0;
       // Led blinking.
-      digitalWrite(13, HIGH);
+      digitalWrite(LedPin, HIGH);
 
       status = sensor_vl53l1_top->VL53L1_GetMeasurementDataReady(&NewDataReady);
       if((!status)&&(NewDataReady!=0))
@@ -173,6 +178,6 @@ void loop()
          }
       }
 
-      digitalWrite(13, LOW);
+      digitalWrite(LedPin, LOW);
    }
 }
