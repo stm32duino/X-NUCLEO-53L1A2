@@ -102,17 +102,29 @@ class STMPE1600DigiOut {
      */
     STMPE1600DigiOut(TwoWire *i2c, ExpGpioPinName outpinname, uint8_t DevAddr = STMPE1600_DEF_DEVICE_ADDRESS, bool lvl = STMPE1600_DEF_DIGIOUT_LVL): dev_i2c(i2c), expdevaddr(DevAddr), exppinname(outpinname)
     {
-      bit16Tobit8_t data;
       if (exppinname == NOT_CON) {
         return;
       }
+      pinlvl = lvl;
+    }
+
+    int begin()
+    {
+      bit16Tobit8_t data;
       /* set the exppinname as output */
       STMPE1600DigiOut_I2CRead(&data.u8bit[0], expdevaddr, GPDR_0_7, 1);
       STMPE1600DigiOut_I2CRead(&data.u8bit[1], expdevaddr, GPDR_8_15, 1);
       data.u16bit = data.u16bit | (1 << (uint16_t)exppinname); // set gpio as out
       STMPE1600DigiOut_I2CWrite(&data.u8bit[0], expdevaddr, GPDR_0_7, 1);
       STMPE1600DigiOut_I2CWrite(&data.u8bit[1], expdevaddr, GPDR_8_15, 1);
-      write(lvl);
+      write(pinlvl);
+      return 0;
+    }
+
+    int end()
+    {
+      /* Do nothing */
+      return 0;
     }
 
     /**
@@ -139,6 +151,7 @@ class STMPE1600DigiOut {
     TwoWire *dev_i2c;
     uint8_t expdevaddr;
     ExpGpioPinName exppinname;
+    bool pinlvl;
 
     int STMPE1600DigiOut_I2CWrite(uint8_t *pBuffer, uint8_t DeviceAddr, uint8_t RegisterAddr, uint16_t NumByteToWrite)
     {
