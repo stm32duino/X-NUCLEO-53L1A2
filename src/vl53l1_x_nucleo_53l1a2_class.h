@@ -53,9 +53,8 @@ class VL53L1_X_NUCLEO_53L1A2 : public VL53L1 {
     /** Constructor (STMPE1600DigiOut)
      * @param[in] i2c device I2C to be used for communication
      * @param[in] &pin Gpio Expander STMPE1600DigiOut pin to be used as component GPIO_0 CE
-     * @param[in] pin_gpio1 pin Arduino Interrupt PinName to be used as component GPIO_1 INT
      */
-    VL53L1_X_NUCLEO_53L1A2(TwoWire *i2c, STMPE1600DigiOut *pin, int pin_gpio1) : VL53L1(i2c, -1, pin_gpio1)
+    VL53L1_X_NUCLEO_53L1A2(TwoWire *i2c, STMPE1600DigiOut *pin) : VL53L1(i2c, -1)
     {
       expgpio0 = pin;
     }
@@ -65,6 +64,16 @@ class VL53L1_X_NUCLEO_53L1A2 : public VL53L1 {
     virtual ~VL53L1_X_NUCLEO_53L1A2() {}
     /* warning: VL53L1_X_NUCLEO_53L1A2 class inherits from GenericSensor, RangeSensor and LightSensor, that haven`t a destructor.
        The warning should request to introduce a virtual destructor to make sure to delete the object */
+
+    int begin()
+    {
+       return expgpio0->begin();
+    }
+
+    int end()
+    {
+       return expgpio0->end();
+    }
 
     /*** Interface Methods ***/
     /*** High level API ***/
