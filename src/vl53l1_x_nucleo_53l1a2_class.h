@@ -67,12 +67,12 @@ class VL53L1_X_NUCLEO_53L1A2 : public VL53L1 {
 
     int begin()
     {
-       return expgpio0->begin();
+      return expgpio0->begin();
     }
 
     int end()
     {
-       return expgpio0->end();
+      return expgpio0->end();
     }
 
     /*** Interface Methods ***/
